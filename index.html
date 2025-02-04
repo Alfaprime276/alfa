@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de ALFA PRIME
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h2>Simulador de Taxas</h2>
+    <label for="valor">Valor que deseja receber:</label>
+    <input type="number" id="valor" placeholder="Ex: 1000">
+    <button onclick="calcular()">Calcular</button>
+    
+    <h3 id="valorExibido"></h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor Total</th>
+                <th>Valor da Parcela</th>
+            </tr>
+        </thead>
+        <tbody id="tabela"></tbody>
+    </table>
+    
+    <script>
+        // Tabela de taxas com acréscimo de 5%
+        const taxas = {
+            "Débito": 1.01102 * 1.05,
+            "1X": 1.03082 * 1.05,
+            "2X": 1.04866 * 1.05,
+            "3X": 1.05519 * 1.05,
+            "4X": 1.06180 * 1.05,
+            "5X": 1.06838 * 1.05,
+            "6X": 1.07492 * 1.05,
+            "7X": 1.08237 * 1.05,
+            "8X": 1.08909 * 1.05,
+            "9X": 1.09577 * 1.05,
+            "10X": 1.10241 * 1.05,
+            "11X": 1.10926 * 1.05,
+            "12X": 1.11607 * 1.05,
+            "13X": 1.12410 * 1.05,
+            "14X": 1.13084 * 1.05,
+            "15X": 1.13779 * 1.05,
+            "16X": 1.14469 * 1.05,
+            "17X": 1.15168 * 1.05,
+            "18X": 1.15875 * 1.05
+        };
+
+        function calcular() {
+            let valor = parseFloat(document.getElementById("valor").value);
+            if (isNaN(valor) || valor <= 0) {
+                alert("Por favor, insira um valor válido.");
+                return;
+            }
+
+            document.getElementById("valorExibido").innerText = `Valor R$ ${valor.toFixed(2)}`;
+            let tabela = document.getElementById("tabela");
+            tabela.innerHTML = "";
+
+            for (let descricao in taxas) {
+                let taxa = taxas[descricao];
+                let valorTotal = valor * taxa;
+                let parcelas = parseInt(descricao) || 1; // Se for "Débito", mantém como 1
+                let valorParcela = valorTotal / parcelas;
+
+                let row = `<tr>
+                    <td>${descricao}</td>
+                    <td>R$ ${valorTotal.toFixed(2)}</td>
+                    <td>R$ ${valorParcela.toFixed(2)}</td>
+                </tr>`;
+
+                tabela.innerHTML += row;
+            }
+        }
+    </script>
+</body>
+</html>
